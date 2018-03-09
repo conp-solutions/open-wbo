@@ -1,3 +1,4 @@
+# make setup for minisat2.2
 VERSION    = core
 SOLVERNAME = "Minisat"
 SOLVERDIR  = minisat
