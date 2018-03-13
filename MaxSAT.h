@@ -81,6 +81,11 @@ public:
     print_soft = false;
     print = false;
     unsat_soft_file = NULL;
+
+    verbosity = 0;
+    #ifndef NDEBUG
+    if(getenv("DEBUG_LIBSMAX")) verbosity = 1;
+    #endif
   }
 
   MaxSAT() {
@@ -105,6 +110,11 @@ public:
     print_soft = false;
     print = false;
     unsat_soft_file = NULL;
+
+    verbosity = 0;
+    #ifndef NDEBUG
+    if(getenv("DEBUG_LIBSMAX")) verbosity = 1;
+    #endif
   }
 
   virtual ~MaxSAT() {
