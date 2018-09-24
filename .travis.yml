@@ -3,6 +3,25 @@ dist: trusty
 compiler: g++
 sudo: required
 
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "rIq4G3YaXm+xyo2CY47AFepTHZFkdipsxABcWmMcorP1Sam4MPatCMjxBe9g5ygLWBnvJ6HeBHiIAVjk2j0U37kVMCoGnfGII2/z8zDNQTtun9nMzZyijXCt1U6AkFqINkh+4x06ui/mqqNUEtqIX0/v2wgACR5MextieI7wZnvIfOeXVvxCbSf2uMnPSYJlBZdNCb9aWj2pxRTtqfDa0UqNlu7e4IFiwm0mqeOnqUm11F+tWv0Bx+Ou8X3uvzjaU/m00t0BIgakQDqrk4HSs467pfbp1Nh5FEm84i6SIF6YO/UKINPlu4K5rsvCSJ//k7RgNtGJPpOndkmRFBNGIfQSRTLHNxYzZxQW7eYVh1MumYtNEyoqD1iDe7d61xABOCFtKm+CpL5yo5BUAMEGjcIUKR/m5zS7YUVAIzQ+/cJhyH09vs0kjEHszcS3zqgWwD+4J21410RWcKsxkotM1h7b3RY4E5IIelzppJ2tDn6Ll+GUtcAlekLPoSKUVzGegaq6PO0pfq5kTYnRtMMZcT8hGlbxJZXG6jROHg6j/xmoEM7XGW8VezkPkrzFrYiL5GCk+RPYq0fd/1gTAinB8Y/juQTWFTc7vdh+BSZ5yEGuYAZUdjGXZrNNUS0ctyFbAnLXEaqBwo6IU0vulUkHVeRU4t5x45x7RBz9Gz67W/Y="
+
+before_install:
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  coverity_scan:
+    project:
+      name: "conp-solutions/open-wbo"
+      description: "opwn-wbo MaxSAT solver"
+    notification_email: nmanthey@conp-solutions.com
+    build_command_prepend: "true"
+    build_command: "make open-wbo_release"
+    branch_pattern: coverity_scan
+
 before_install:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -q
