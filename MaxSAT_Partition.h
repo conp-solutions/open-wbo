@@ -51,7 +51,7 @@ class MaxSAT_Partition : public MaxSAT {
 
 public:
   MaxSAT_Partition();
-  ~MaxSAT_Partition();
+  virtual ~MaxSAT_Partition();
 
   void split(int mode, int graphType = RES_GRAPH); // Default Value
 

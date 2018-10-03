@@ -47,7 +47,10 @@ MaxSAT_Partition::MaxSAT_Partition() {
 
 MaxSAT_Partition::~MaxSAT_Partition() {
   if (_graph != NULL)
+  {
     delete _graph;
+    _graph = nullptr;
+  }
 }
 
 void MaxSAT_Partition::init() {
@@ -107,6 +110,8 @@ void MaxSAT_Partition::split(int mode, int graphType) {
       // printf("c %d Communities found\n", _gc.nCommunities());
 
       buildPartitions(graphType);
+      delete _graph;
+      _graph = nullptr;
     }
   }
 

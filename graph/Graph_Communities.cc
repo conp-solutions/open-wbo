@@ -45,7 +45,10 @@ Graph_Communities::Graph_Communities() {
   _g = NULL;
 }
 
-Graph_Communities::~Graph_Communities() {}
+Graph_Communities::~Graph_Communities() {
+  if(_g)
+    delete _g;
+}
 
 int Graph_Communities::findCommunities(int mode, Graph *g) {
   // mode indicates the method used to identify communities...

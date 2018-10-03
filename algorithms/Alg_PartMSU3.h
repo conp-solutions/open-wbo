@@ -102,6 +102,7 @@ public:
   virtual ~PartMSU3() {
     if (this->solver != NULL) {
       delete this->solver;
+      this->solver = nullptr;
     }
   }
 
