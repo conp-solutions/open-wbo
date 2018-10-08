@@ -56,6 +56,7 @@ public:
   ~OLL() {
     if (solver != NULL)
       delete solver;
+    release_soft_cardinality_encoders();
   }
 
   StatusCode search();
@@ -84,6 +85,12 @@ protected:
 
   // Other
   void initRelaxation(); // Relaxes soft clauses.
+
+  // Collection of all encoders
+  vec<Encoder *> soft_cardinality;
+
+  // Make sure we release all memory
+  void release_soft_cardinality_encoders();
 
   StatusCode unweighted();
   StatusCode weighted();

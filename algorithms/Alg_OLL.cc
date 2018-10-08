@@ -116,7 +116,10 @@ StatusCode OLL::unweighted() {
     coreMapping[maxsat_formula->getSoftClause(i).assumption_var] = i;
 
   std::set<Lit> cardinality_assumptions;
-  vec<Encoder *> soft_cardinality;
+
+  assert(soft_cardinality.size() == 0 && "should not be called in a row");
+  release_soft_cardinality_encoders();
+  assert(soft_cardinality.size() == 0 && "start with a fresh encoder");
 
   for (;;) {
 
@@ -311,7 +314,10 @@ StatusCode OLL::weighted() {
     coreMapping[maxsat_formula->getSoftClause(i).assumption_var] = i;
 
   std::set<Lit> cardinality_assumptions;
-  vec<Encoder *> soft_cardinality;
+
+  assert(soft_cardinality.size() == 0 && "should not be called in a row");
+  release_soft_cardinality_encoders();
+  assert(soft_cardinality.size() == 0 && "start with a fresh encoder");
 
   min_weight = maxsat_formula->getMaximumWeight();
   // printf("current weight %d\n",maxsat_formula->getMaximumWeight());
@@ -754,6 +760,16 @@ StatusCode OLL::weighted() {
       }
     }
   }
+}
+
+void OLL::release_soft_cardinality_encoders()
+{
+  for(int i = 0; i < soft_cardinality.size(); ++ i)
+  {
+    delete soft_cardinality[i];
+    soft_cardinality[i] = nullptr;
+  }
+  soft_cardinality.clear();
 }
 
 StatusCode OLL::search() {
