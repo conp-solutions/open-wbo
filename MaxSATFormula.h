@@ -106,7 +106,9 @@ public:
     soft_clauses.clear();
 
     for (int i = 0; i < nHard(); i++)
-      hard_clauses[i].clause.clear();
+    {
+      if(i < hard_clauses.size()) hard_clauses[i].clause.clear();
+    }
     hard_clauses.clear();
   }
 
