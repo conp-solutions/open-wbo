@@ -3,6 +3,7 @@
 *.or
 *.os
 *.ol
+*.oL
 *.o
 *.a
 depend.mk
