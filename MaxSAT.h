@@ -122,10 +122,12 @@ public:
   }
 
   virtual ~MaxSAT() {
+#if 0 // the formula should be deleted by the one who created it
     if (maxsat_formula != NULL) {
       delete maxsat_formula;
       maxsat_formula = nullptr;
     }
+#endif
   }
 
   void setInitialTime(double initial); // Set initial time.
