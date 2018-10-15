@@ -71,6 +71,8 @@ public:
 
     off_set = 0;
 
+    last_bound = UINT64_MAX;
+
     // Statistics
     nbSymmetryClauses = 0;
     nbCores = 0;
@@ -99,6 +101,8 @@ public:
     lbCost = 0;
 
     off_set = 0;
+
+    last_bound = UINT64_MAX;
 
     // Statistics
     nbSymmetryClauses = 0;
@@ -172,6 +176,7 @@ public:
   }
 
   int64_t getOffSet() { return off_set; }
+  int64_t getLastBound() const { return last_bound; }
 
   MaxSATFormula *getMaxSATFormula() { return maxsat_formula; }
 
@@ -241,6 +246,8 @@ protected:
   uint64_t ubCost; // Upper bound value.
   uint64_t lbCost; // Lower bound value.
   int64_t off_set; // Offset of the objective function for PB solving.
+
+  int64_t last_bound; // Last known (and printed) bound
 
   MaxSATFormula *maxsat_formula;
 

@@ -347,6 +347,10 @@ void MaxSAT::blockModel(Solver *solver) {
 
 void MaxSAT::printBound(int64_t bound)
 {
+  // update stored bound
+  assert(bound >= 0 && "no negative bounds should be reported");
+  if( (uint64_t)bound < (uint64_t)maxsat_formula->getHardWeight() ) last_bound = bound;
+
   if(!print) return;
 
   // print bound only, if its below the hard weight
