@@ -72,6 +72,7 @@ public:
     off_set = 0;
 
     last_bound = UINT64_MAX;
+    satBudgetLeft = -1;
 
     // Statistics
     nbSymmetryClauses = 0;
@@ -103,6 +104,7 @@ public:
     off_set = 0;
 
     last_bound = UINT64_MAX;
+    satBudgetLeft = -1;
 
     // Statistics
     nbSymmetryClauses = 0;
@@ -219,6 +221,12 @@ public:
     return -(int)v - 1;
   }
 
+  /** set number of conflicts to be used during SAT calls */
+  void setSATbudget(int64_t newSATbudget) {satBudgetLeft = newSATbudget;}
+
+  /** return the amount of budget remaining */
+  int64_t getSATbudget() const {return satBudgetLeft;}
+
 protected:
   // Interface with the SAT solver
   //
@@ -249,7 +257,8 @@ protected:
   uint64_t lbCost; // Lower bound value.
   int64_t off_set; // Offset of the objective function for PB solving.
 
-  int64_t last_bound; // Last known (and printed) bound
+  int64_t last_bound;    // Last known (and printed) bound
+  int64_t satBudgetLeft; // Number of conflicts left for SAT search (negative value == off)
 
   MaxSATFormula *maxsat_formula;
 

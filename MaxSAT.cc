@@ -97,10 +97,27 @@ lbool MaxSAT::searchSATSolver(Solver *S, vec<Lit> &assumptions, bool pre) {
 // should be frozen.
 
 #ifdef SIMP
-  lbool res = ((NSPACE::SimpSolver *)S)->solveLimited(assumptions, pre);
+  NSPACE::SimpSolver *actualSolver = ((NSPACE::SimpSolver *)S)
 #else
-  lbool res = S->solveLimited(assumptions);
+  Solver *actualSolver = S;
 #endif
+
+  if(satBudgetLeft >= 0) actualSolver->setConfBudget(satBudgetLeft);
+  uint64_t usedConflicts = actualSolver->conflicts;
+
+#ifdef SIMP
+  lbool res = actualSolver->solveLimited(assumptions, pre);
+#else
+  lbool res = actualSolver->solveLimited(assumptions);
+#endif
+
+  actualSolver->budgetOff();
+  usedConflicts = actualSolver->conflicts - usedConflicts;
+  satBudgetLeft =  ((int64_t)usedConflicts > satBudgetLeft) ? 0 : satBudgetLeft - usedConflicts;
+
+  /* in case the SAT call fails, fail straight away from here, and make the MaxSAT object unusable */
+  if(res == l_Undef)
+    throw MaxSATException(__FILE__, __LINE__, "SAT solver consumed budget");
 
   return res;
 }
