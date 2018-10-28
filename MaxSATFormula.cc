@@ -55,38 +55,33 @@ MaxSATFormula *MaxSATFormula::copyMaxSATFormula() {
 }
 
 // Adds a new hard clause to the hard clause database.
-void MaxSATFormula::addHardClause(vec<Lit> &lits) {
+void MaxSATFormula::addHardClause(const vec<Lit> &lits) {
   hard_clauses.push();
-  vec<Lit> copy_lits;
-  lits.copyTo(copy_lits);
-  new (&hard_clauses[hard_clauses.size() - 1]) Hard(copy_lits);
+
+  new (&hard_clauses[hard_clauses.size() - 1]) Hard(lits);
   n_hard++;
 }
 
 // Adds a new soft clause to the hard clause database.
-void MaxSATFormula::addSoftClause(uint64_t weight, vec<Lit> &lits) {
+void MaxSATFormula::addSoftClause(uint64_t weight, const vec<Lit> &lits) {
   soft_clauses.push();
   vec<Lit> vars;
   Lit assump = lit_Undef;
-  vec<Lit> copy_lits;
-  lits.copyTo(copy_lits);
 
   new (&soft_clauses[soft_clauses.size() - 1])
-      Soft(copy_lits, weight, assump, vars);
+      Soft(lits, weight, assump, vars);
   n_soft++;
 }
 
 // Adds a new soft clause to the hard clause database with predefined relaxation
 // variables.
-void MaxSATFormula::addSoftClause(uint64_t weight, vec<Lit> &lits,
+void MaxSATFormula::addSoftClause(uint64_t weight, const vec<Lit> &lits,
                                   vec<Lit> &vars) {
   soft_clauses.push();
   Lit assump = lit_Undef;
-  vec<Lit> copy_lits;
-  lits.copyTo(copy_lits);
 
   new (&soft_clauses[soft_clauses.size() - 1])
-      Soft(copy_lits, weight, assump, vars);
+      Soft(lits, weight, assump, vars);
   n_soft++;
 }
 

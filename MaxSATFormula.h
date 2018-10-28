@@ -117,13 +117,13 @@ public:
   MaxSATFormula *copyMaxSATFormula();
 
   /*! Add a new hard clause. */
-  void addHardClause(vec<Lit> &lits);
+  void addHardClause(const vec<Lit> &lits);
 
   /*! Add a new soft clause. */
-  void addSoftClause(uint64_t weight, vec<Lit> &lits);
+  void addSoftClause(uint64_t weight, const vec<Lit> &lits);
 
   /*! Add a new soft clause with predefined relaxation variables. */
-  void addSoftClause(uint64_t weight, vec<Lit> &lits, vec<Lit> &vars);
+  void addSoftClause(uint64_t weight, const vec<Lit> &lits, vec<Lit> &vars);
 
   int nVars();   // Number of variables.
   int nSoft();   // Number of soft clauses.
