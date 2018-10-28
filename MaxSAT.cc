@@ -102,6 +102,7 @@ lbool MaxSAT::searchSATSolver(Solver *S, vec<Lit> &assumptions, bool pre) {
   Solver *actualSolver = S;
 #endif
 
+  bool inBudget = true;
   if(satBudgetLeft >= 0) actualSolver->setConfBudget(satBudgetLeft);
   uint64_t usedConflicts = actualSolver->conflicts;
 
@@ -111,13 +112,19 @@ lbool MaxSAT::searchSATSolver(Solver *S, vec<Lit> &assumptions, bool pre) {
   lbool res = actualSolver->solveLimited(assumptions);
 #endif
 
-  actualSolver->budgetOff();
+  if(satBudgetLeft >= 0) {
+    if(!actualSolver->withinBudget() && res == l_Undef) inBudget = false;
+    actualSolver->budgetOff();
+  }
   usedConflicts = actualSolver->conflicts - usedConflicts;
-  satBudgetLeft =  ((int64_t)usedConflicts > satBudgetLeft) ? 0 : satBudgetLeft - usedConflicts;
+  if(satBudgetLeft >= 0) satBudgetLeft =  ((int64_t)usedConflicts > satBudgetLeft) ? 0 : satBudgetLeft - usedConflicts;
 
   /* in case the SAT call fails, fail straight away from here, and make the MaxSAT object unusable */
-  if(res == l_Undef)
+  if(!inBudget)
+  {
+    // assert(false && "search calls should not come back with \"unknown\""); // TODO remove after debugging
     throw MaxSATException(__FILE__, __LINE__, "SAT solver consumed budget");
+  }
 
   return res;
 }
