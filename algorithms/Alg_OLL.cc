@@ -404,9 +404,7 @@ StatusCode OLL::weighted() {
           return _OPTIMUM_;
         }
       }
-    }
-
-    if (res == l_False) {
+    } else if (res == l_False) {
 
       // reduce the weighted to the unweighted case
       uint64_t min_core = UINT64_MAX;
@@ -758,6 +756,10 @@ StatusCode OLL::weighted() {
         printf("c Relaxed soft clauses %d / %d\n", active_soft,
                maxsat_formula->nSoft());
       }
+    } else {
+      // we reachaed a point where the SAT search cannot be continued
+      // abort with UNKNOWN instead, so that the caller can handle that.
+      return _UNKNOWN_;
     }
   }
 }
