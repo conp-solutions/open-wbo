@@ -165,6 +165,10 @@ public:
     }
 
     ubCost = maxsat_formula->getSumWeights();
+
+    if(verbosity>0) {
+      maxsat_formula->dumpFormula();
+    }
   }
 
   void blockModel(Solver *solver);

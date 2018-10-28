@@ -93,6 +93,13 @@ void MaxSAT::reserveSATVariables(Solver *S, unsigned maxVariable) {
 // assumptions and with the option to use preprocessing for 'simp'.
 lbool MaxSAT::searchSATSolver(Solver *S, vec<Lit> &assumptions, bool pre) {
 
+  if (verbosity > 0 && maxsat_formula)
+  {
+    std::cout << "solve SAT with MaxSAT formula" << std::endl;
+    maxsat_formula->dumpFormula();
+    std::cout << std::endl;
+  }
+
 // Currently preprocessing is disabled by default.
 // Variable elimination cannot be done on relaxation variables nor on variables
 // that belong to soft clauses. To preprocessing to be used those variables
