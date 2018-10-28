@@ -222,3 +222,45 @@ void MaxSATFormula::convertPBtoMaxSAT() {
   else
     setProblemType(_WEIGHTED_);
 }
+
+/** print literals into a stream */
+inline std::ostream& operator<<(std::ostream& other, const Lit& l)
+{
+    if (l == lit_Undef) { other << "lUndef"; }
+    else if (l == NSPACE::lit_Error) { other << "lError"; }
+    else { other << (NSPACE::sign(l) ? "-" : "") << NSPACE::var(l) + 1; }
+    return other;
+}
+
+/** print elements of a std::vector */
+template <typename T>
+inline std::ostream& operator<<(std::ostream& other, const vec<T>& data)
+{
+    for (int i = 0 ; i < data.size(); ++ i) {
+        other << " " << data[i];
+    }
+    return other;
+}
+
+void MaxSATFormula::dumpFormula() const
+{
+  std::cout << "MaxSAT formula (" << soft_clauses.size() << " soft, " << hard_clauses.size() << " hard)" << std::endl;
+  uint64_t weight_sum = 0;
+  for(int index = 0 ; index < soft_clauses.size(); ++index)
+  {
+    std::cout << "soft(" << index << "/" << soft_clauses.size() << "): w: " << soft_clauses[index].weight << " c: " << soft_clauses[index].clause << std::endl;
+    weight_sum += soft_clauses[index].weight;
+  }
+  for(int index = 0 ; index < hard_clauses.size(); ++index)
+  {
+    std::cout << "hard(" << index << "/" << hard_clauses.size() << "): c: " << hard_clauses[index].clause << std::endl;
+  }
+
+  // print wcnf
+  const uint64_t top = weight_sum + 1;
+  std::cout << "p wcnf " << n_initial_vars << " " << soft_clauses.size() + hard_clauses.size() << " " << top << std::endl;
+  for(int index = 0 ; index < soft_clauses.size(); ++index)
+    std::cout << soft_clauses[index].weight << " " << soft_clauses[index].clause << " 0" << std::endl;
+  for(int index = 0 ; index < hard_clauses.size(); ++index)
+    std::cout << top << " " << hard_clauses[index].clause << " 0" << std::endl;
+}

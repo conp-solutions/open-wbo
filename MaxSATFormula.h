@@ -40,6 +40,8 @@
 #include <map>
 #include <string>
 
+#include <iostream>
+
 using NSPACE::vec;
 using NSPACE::Lit;
 using NSPACE::lit_Undef;
@@ -188,6 +190,8 @@ public:
   int getFormat() { return format; }
 
   indexMap &getIndexToName() { return _indexToName; }
+
+  void dumpFormula() const;
 
 protected:
   // MaxSAT database
