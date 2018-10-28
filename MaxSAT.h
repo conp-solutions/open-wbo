@@ -73,6 +73,7 @@ public:
 
     last_bound = UINT64_MAX;
     satBudgetLeft = -1;
+    satVerbosity = 0;
 
     // Statistics
     nbSymmetryClauses = 0;
@@ -88,6 +89,7 @@ public:
     verbosity = 0;
     #ifndef NDEBUG
     if(getenv("DEBUG_LIBSMAX")) verbosity = 1;
+    if(verbosity > 0) satVerbosity = 2;
     #endif
   }
 
@@ -105,6 +107,7 @@ public:
 
     last_bound = UINT64_MAX;
     satBudgetLeft = -1;
+    satVerbosity = 0;
 
     // Statistics
     nbSymmetryClauses = 0;
@@ -227,6 +230,9 @@ public:
   /** return the amount of budget remaining */
   int64_t getSATbudget() const {return satBudgetLeft;}
 
+  /** set the verbosity of the SAT solvers that are used */
+  void setSATverbosity(int newSATverbosity) {satVerbosity = newSATverbosity;}
+
 protected:
   // Interface with the SAT solver
   //
@@ -259,6 +265,7 @@ protected:
 
   int64_t last_bound;    // Last known (and printed) bound
   int64_t satBudgetLeft; // Number of conflicts left for SAT search (negative value == off)
+  int satVerbosity;      // Verbosity to be forwarded to created SAT solver
 
   MaxSATFormula *maxsat_formula;
 

@@ -62,6 +62,8 @@ Solver *MaxSAT::newSATSolver() {
   Solver *S = new Solver();
 #endif
 
+  S->verbosity = satVerbosity;
+
   return (Solver *)S;
 }
 
