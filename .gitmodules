@@ -4,6 +4,3 @@
 [submodule "minisat"]
 	path = solvers/minisat
 	url = https://github.com/conp-solutions/minisat.git
-[submodule "solvers/minisat"]
-	path = solvers/minisat
-	url = /home/nmanthey/git/minisat
