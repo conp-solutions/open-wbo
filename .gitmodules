@@ -1,6 +1,3 @@
-[submodule "riss"]
-	path = solvers/riss
-	url = https://github.com/conp-solutions/riss.git
 [submodule "minisat"]
 	path = solvers/minisat
 	url = https://github.com/conp-solutions/minisat.git
