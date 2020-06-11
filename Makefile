@@ -1,6 +1,6 @@
 # Define which solver to use as backend, this can be a name of a file in the
 # solvers directory.
-SOLVER     ?= glucose4.1
+SOLVER     ?= minisat
 #
 # The following values should be defined in the included file:
 # VERSION    = core or simp 
