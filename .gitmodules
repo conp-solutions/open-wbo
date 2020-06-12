@@ -1,3 +1,6 @@
 [submodule "minisat"]
 	path = solvers/minisat
 	url = https://github.com/conp-solutions/minisat.git
+[submodule "mergesat"]
+	path = solvers/mergesat
+	url = git@github.com:conp-solutions/mergesat.git
