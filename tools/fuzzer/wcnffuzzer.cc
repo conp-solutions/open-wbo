@@ -154,7 +154,7 @@ int main(int argc, char **argv)
     }
 
     // make sure to lift up all weights for hard clauses to the top value
-    int64_t hard_sum = 0, soft_sum = 0;
+    int64_t hard_sum = 0, soft_sum = 0, prev_sum = 0;
     for (size_t i = 0; i < weights.size(); ++i) {
         if (weights[i] >= maxweight) {
             weights[i] = top + (weights[i] - maxweight);
@@ -163,6 +163,10 @@ int main(int argc, char **argv)
         } else {
             soft_clauses++;
             soft_sum += weights[i];
+            if(soft_sum < prev_sum) {
+                cout << "c error: sum of weights overflowed, abort" << endl;
+                exit(1);
+            }
         }
     }
     cout << "c hard clauses: " << hard_clauses << endl
