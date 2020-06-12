@@ -218,6 +218,7 @@ void MaxSATFormula::convertPBtoMaxSAT() {
     setProblemType(_WEIGHTED_);
 }
 
+#ifndef USE_mergesat
 /** print literals into a stream */
 inline std::ostream& operator<<(std::ostream& other, const Lit& l)
 {
@@ -236,6 +237,7 @@ inline std::ostream& operator<<(std::ostream& other, const vec<T>& data)
     }
     return other;
 }
+#endif
 
 void MaxSATFormula::dumpFormula() const
 {
