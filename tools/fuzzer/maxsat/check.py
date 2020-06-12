@@ -56,10 +56,10 @@ def compare_results(wcnf, results, solver_failures, var, cls, top, hard_clauses,
             solver_failures[solver + "::optimum-toohigh"] = wcnf
 
         # unsatisfiable for hard clauses
-        if result == "UNSATISFIABLE" and not hard_clauses and solver + "::invalid-unsat" not in solver_failures:
-            print "Solver {} reports unsatisfiable without hard clauses in the problem".format(solver)
-            detected_failure = 1
-            solver_failures[solver + "::wrong-returncode"] = wcnf
+        #if result == "UNSATISFIABLE" and not hard_clauses and solver + "::invalid-unsat" not in solver_failures:
+        #    print "Solver {} reports unsatisfiable without hard clauses in the problem".format(solver)
+        #    detected_failure = 1
+        #    solver_failures[solver + "::invalid-unsat"] = wcnf
 
     return detected_failure
 
