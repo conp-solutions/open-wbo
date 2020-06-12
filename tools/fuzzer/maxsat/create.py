@@ -11,11 +11,19 @@ import sys
 fuzzer_call = "./wcnffuzzer"
 
 def generate_wcnf_formula(return_as_string = False):
-    fuzzer_process = subprocess.Popen(fuzzer_call, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = fuzzer_process.communicate()
-    rc = fuzzer_process.returncode
 
-    if rc != 0:
+    attempt = 0
+
+    # retry up to 5 times, before giving up
+    while attempt < 5:
+        attempt = attempt + 1
+        fuzzer_process = subprocess.Popen(fuzzer_call, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = fuzzer_process.communicate()
+        rc = fuzzer_process.returncode
+        if rc == 0:
+            break
+
+    if attempt >= 5:
         print "fuzzer call returned with {}, abort fuzzing run".format(rc)
         sys.exit(1)
 
