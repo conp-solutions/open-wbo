@@ -104,7 +104,7 @@ int main(int argc, char **argv)
     uint64_t weight_sum = 0, prev_sum = 0;
     vector<int64_t> weights;
     for (int c = 0; c < maxcls; ++c) {
-        int weight = rand() % (2 * maxweight > 2 ? 2 * maxweight - 1 : 1) + 1; // uniformly distribute weights, including weight 0
+        int64_t weight = rand() % (2 * maxweight > 2 ? 2 * maxweight - 1 : 1) + 1; // uniformly distribute weights, including weight 0
         if (!invalid)
             weight = weight > maxweight ? maxweight : weight; // make sure we stay withing maxweight, if invalid is not enabled
         if (invalid && rand() % 1000 < 3) weight = 0;         // for now we do not rely on weight == 0
@@ -145,7 +145,7 @@ int main(int argc, char **argv)
 
     // make sure we also have weights for the potential new invalid clauses
     for (; weights.size() < (size_t)maxcls;) {
-        int weight = rand() % (2 * maxweight > 2 ? 2 * maxweight - 1 : 1) + 1; // uniformly distribute weights, including weight 0
+        int64_t weight = rand() % ((2 * maxweight > 2) ? (2 * maxweight - 1) : 1) + 1; // uniformly distribute weights, including weight 0
         if (!invalid)
             weight = weight > maxweight ? maxweight : weight; // make sure we stay withing maxweight, if invalid is not enabled
         weight_sum += weight;                                 // from here on the value can only get smaller
