@@ -37,7 +37,12 @@ def compare_results(wcnf, results, solver_failures, var, cls, top, hard_clauses,
             solver_failures[solver + "::sigsev"] = wcnf
 
         # wrong return code
-        if result not in code_mapping or (rc != code_mapping[result] and rc != 124 and code_mapping[result] != "SATISFIABLE"):
+        if result not in code_mapping:
+            if solver + "::unknown-result" not in solver_failures:
+                print "Unknown result {} for solver {}".format(result, solver)
+                detected_failure = 1
+                solver_failures[solver + "::unknown-result"] = wcnf
+        elif (rc != code_mapping[result] and rc != 124 and code_mapping[result] != "SATISFIABLE"):
             if solver + "::wrong-returncode" not in solver_failures:
                 print "Return code does not match printed status for solver {}".format(solver)
                 detected_failure = 1
