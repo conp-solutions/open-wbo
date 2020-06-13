@@ -101,7 +101,7 @@ int main(int argc, char **argv)
     if (invalid && rand() % 10000 < 3) maxweight -= 1;
 
     // pre-generate all weights
-    uint64_t weight_sum = 0;
+    uint64_t weight_sum = 0, prev_sum = 0;
     vector<int64_t> weights;
     for (int c = 0; c < maxcls; ++c) {
         int weight = rand() % (2 * maxweight > 2 ? 2 * maxweight - 1 : 1) + 1; // uniformly distribute weights, including weight 0
@@ -113,7 +113,12 @@ int main(int argc, char **argv)
         if (huge_weights) weight = (int)(max_weights / maxcls) > 2 * weight ? (max_weights / maxcls) - weight : weight;
         if (unweighted) weight = 1; // overwrite the weight
 
-        if (weight > 0) weight_sum += weight;
+        if(weight > 0) weight_sum += weight;
+        if(weight_sum < prev_sum) {
+                cout << "c error: sum of weights overflowed, abort (new sum: " << weight_sum << " prev sum: " << prev_sum << " weight: " << weight << endl;
+                exit(1);
+        }
+        prev_sum = weight_sum;
         weights.push_back(weight);
     }
     top = weight_sum + 1;
@@ -154,7 +159,7 @@ int main(int argc, char **argv)
     }
 
     // make sure to lift up all weights for hard clauses to the top value
-    int64_t hard_sum = 0, soft_sum = 0, prev_sum = 0;
+    int64_t hard_sum = 0, soft_sum = 0, total_prev_sum = 0;
     for (size_t i = 0; i < weights.size(); ++i) {
         if (weights[i] >= maxweight) {
             weights[i] = top + (weights[i] - maxweight);
@@ -163,10 +168,11 @@ int main(int argc, char **argv)
         } else {
             soft_clauses++;
             soft_sum += weights[i];
-            if(soft_sum < prev_sum) {
-                cout << "c error: sum of weights overflowed, abort" << endl;
+            if(!invalid && soft_sum < total_prev_sum) {
+                cout << "c error: sum of weights overflowed, abort (new sum: " << soft_sum << " prev sum: " << total_prev_sum << " weight: " << weights[i] << " at index " << i << "/" << weights.size() << endl;
                 exit(1);
             }
+            total_prev_sum = soft_sum;
         }
     }
     cout << "c hard clauses: " << hard_clauses << endl
