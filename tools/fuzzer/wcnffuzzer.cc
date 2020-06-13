@@ -110,8 +110,8 @@ int main(int argc, char **argv)
         if (invalid && rand() % 1000 < 3) weight = 0;         // for now we do not rely on weight == 0
         if (invalid && rand() % 100000 < 3) weight = -weight;
 
+        if (huge_weights) weight = (int)(max_weights / maxcls) > 2 * weight ? (max_weights / maxcls) - weight : weight;
         if (unweighted) weight = 1; // overwrite the weight
-        if (huge_weights) weight = (max_weights / maxcls) - weight;
 
         if (weight > 0) weight_sum += weight;
         weights.push_back(weight);
