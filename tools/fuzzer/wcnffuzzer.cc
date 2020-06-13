@@ -94,7 +94,7 @@ int main(int argc, char **argv)
     else
         huge_weights = (rand() % 100) < 15;
 
-    if (huge_weights) cout << "c enable very large weights" << endl;
+    cout << "c enable very large weights: " << (huge_weights ? "yes" : "no") << endl;
 
     if (invalid && rand() % 1000 < 7) maxweight = -maxweight;
     if (invalid && rand() % 10000 < 3) maxweight -= 1;
